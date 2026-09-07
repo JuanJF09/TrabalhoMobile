@@ -18,4 +18,8 @@ class Jogo {
     this.disponivel = true,
     DateTime? dataCadastro,
   }) : dataCadastro = dataCadastro ?? DateTime.now();
+
+  String ficha() {
+    return '$nome ($anoLancamento) - Gênero: $genero | Preço: R\$ ${preco.toStringAsFixed(2)} | Tamanho: ${espacoArmazenamento}GB';
+  }
 }
