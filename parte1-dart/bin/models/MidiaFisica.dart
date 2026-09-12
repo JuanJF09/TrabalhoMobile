@@ -1,11 +1,10 @@
-import 'jogo.dart';
+import 'Jogo.dart';
 
 class MidiaFisica extends Jogo {
-    double valorFrete;
-    String tipoEmbalagem;
+  double valorFrete;
+  String tipoEmbalagem;
 
-    MidiaFisica(
-    {
+  MidiaFisica({
     required super.id,
     required super.nome,
     required super.genero,
@@ -14,13 +13,13 @@ class MidiaFisica extends Jogo {
     required super.anoLancamento,
     super.disponivel,
     super.dataCadastro,
-    
+
     required this.valorFrete,
     required this.tipoEmbalagem,
-    });
+  });
 
-    @override
-    String ficha() {
-        return '${super.ficha()} | Frete: R\$ ${valorFrete.toStringAsFixed(2)} | Embalagem: $tipoEmbalagem';
-    }
+  @override
+  String ficha() {
+    return '${super.ficha()} | Frete: R\$ ${valorFrete.toStringAsFixed(2)} | Embalagem: $tipoEmbalagem';
+  }
 }
