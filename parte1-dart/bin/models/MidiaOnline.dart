@@ -1,11 +1,10 @@
-import 'jogo.dart';
+import 'Jogo.dart';
 
 class MidiaOnline extends Jogo {
-    String plataforma;
-    bool requerConexaoConstante;
+  String plataforma;
+  bool requerConexaoConstante;
 
-    MidiaOnline(
-    {
+  MidiaOnline({
     required super.id,
     required super.nome,
     required super.genero,
@@ -14,14 +13,13 @@ class MidiaOnline extends Jogo {
     required super.anoLancamento,
     super.disponivel,
     super.dataCadastro,
-    
+
     required this.plataforma,
     required this.requerConexaoConstante,
-    });
+  });
 
-
-    @override
-    String ficha() {
+  @override
+  String ficha() {
     final conexao = requerConexaoConstante ? 'Sim' : 'Não';
     return '${super.ficha()} | Plataforma: $plataforma | Conexão Constante: $conexao';
   }
