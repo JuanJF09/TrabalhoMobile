@@ -1,16 +1,16 @@
 import 'models/jogo.dart';
-import 'models/midia_fisica.dart';
-import 'models/midia_online.dart';
+import 'models/midiafisica.dart';
+import 'models/midiaonline.dart';
 import 'models/biblioteca.dart';
 
-void main(List<String> arguments) {
+void main() {
   final jogoBase = Jogo(
     id: 'J01',
-    nome: 'Jogo Base',
-    genero: 'Padrão',
-    preco: 0.00,
-    espacoArmazenamento: 1,
-    anoLancamento: 2020,
+    nome: 'Stardew Valley',
+    genero: 'Simulação',
+    preco: 29.90,
+    espacoArmazenamento: 2,
+    anoLancamento: 2016,
   );
 
   final jogoFisico = MidiaFisica(
@@ -21,7 +21,7 @@ void main(List<String> arguments) {
     espacoArmazenamento: 60,
     anoLancamento: 2022,
     valorFrete: 25.00,
-    tipoEmbalagem: 'Steelbook Edição de Colecionador',
+    tipoEmbalagem: 'Steelbook',
   );
 
   final jogoOnline = MidiaOnline(
@@ -35,39 +35,76 @@ void main(List<String> arguments) {
     requerConexaoConstante: true,
   );
 
+  // =========================================================
+  // [1] ENTIDADE PRINCIPAL
+  // =========================================================
+
   print('===== [1] ENTIDADE PRINCIPAL =====');
-  print(jogoBase.ficha());
+
+  print('Nome: ${jogoBase.nome}');
+  print('Gênero: ${jogoBase.genero}');
+  print('Preço: R\$ ${jogoBase.preco.toStringAsFixed(2)}');
+  print('Armazenamento: ${jogoBase.espacoArmazenamento} GB');
+  print('Ano: ${jogoBase.anoLancamento}');
+  print('Disponível: ${jogoBase.disponivel}');
+
+  // =========================================================
+  // [2] HERANÇA
+  // =========================================================
 
   print('\n===== [2] HERANÇA =====');
-  print('Jogo comum   -> ${jogoBase.ficha()}');
-  print('MidiaFisica  -> ${jogoFisico.ficha()}');
-  print('MidiaOnline  -> ${jogoOnline.ficha()}');
 
-  final biblioteca = Biblioteca(nome: 'Acervo Pessoal');
+  print('Jogo -> ficha()');
+  print(jogoBase.ficha());
+
+  print('\nMidiaFisica -> ficha()');
+  print(jogoFisico.ficha());
+
+  print('\nMidiaOnline -> ficha()');
+  print(jogoOnline.ficha());
+
+  // =========================================================
+  // [3] COMPOSIÇÃO
+  // =========================================================
+
+  final biblioteca = Biblioteca(
+    nome: 'Acervo Pessoal',
+  );
+
   biblioteca.adicionar(jogoBase);
   biblioteca.adicionar(jogoFisico);
   biblioteca.adicionar(jogoOnline);
 
   print('\n===== [3] COMPOSIÇÃO =====');
-  biblioteca.listarJogos();
+
+  print(
+    'Biblioteca "${biblioteca.nome}" '
+    'contém ${biblioteca.quantidadeJogos} jogos:',
+  );
+
+  for (final jogo in biblioteca.jogos) {
+    print('- ${jogo.nome}');
+  }
+
+  // =========================================================
+  // [4] ENCAPSULAMENTO
+  // =========================================================
+
+  final bibliotecaTeste = Biblioteca(
+    nome: 'Teste de Encapsulamento',
+  );
 
   print('\n===== [4] ENCAPSULAMENTO =====');
+
   print(
-    'Valor total do acervo (antes): R\$ ${biblioteca.valorTotalAcervo.toStringAsFixed(2)}',
+    'Antes de adicionar: '
+    'R\$ ${bibliotecaTeste.valorTotalAcervo.toStringAsFixed(2)}',
   );
-  final jogoExtra = MidiaOnline(
-    id: 'J04',
-    nome: 'Hades',
-    genero: 'Roguelike',
-    preco: 79.90,
-    espacoArmazenamento: 15,
-    anoLancamento: 2020,
-    plataforma: 'Steam / PC',
-    requerConexaoConstante: false,
-  );
-  biblioteca.adicionar(jogoExtra);
+
+  bibliotecaTeste.adicionar(jogoFisico);
+
   print(
-    'Após adicionar "${jogoExtra.nome}" (${jogoExtra.preco.toStringAsFixed(2)}): '
-    'R\$ ${biblioteca.valorTotalAcervo.toStringAsFixed(2)}',
+    'Depois de adicionar: '
+    'R\$ ${bibliotecaTeste.valorTotalAcervo.toStringAsFixed(2)}',
   );
 }

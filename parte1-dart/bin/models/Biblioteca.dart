@@ -2,9 +2,12 @@ import 'Jogo.dart';
 
 class Biblioteca {
   final String nome;
+
   final List<Jogo> _jogos = [];
 
-  Biblioteca({required this.nome});
+  Biblioteca({
+    required this.nome,
+  });
 
   void adicionar(Jogo jogo) {
     _jogos.add(jogo);
@@ -14,16 +17,22 @@ class Biblioteca {
 
   double get valorTotalAcervo {
     double total = 0;
+
     for (final jogo in _jogos) {
       total += jogo.preco;
     }
+
     return total;
   }
 
+  List<Jogo> get jogos => List.unmodifiable(_jogos);
+
   void listarJogos() {
-    print('--- Acervo de $nome (${_jogos.length} jogo(s)) ---');
+    print('Biblioteca: $nome');
+    print('Quantidade: ${_jogos.length}');
+
     for (final jogo in _jogos) {
-      print(jogo.ficha());
+      print('- ${jogo.nome}');
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../models/jogo.dart';
 import '../models/midia_fisica.dart';
 import '../models/midia_online.dart';
@@ -6,51 +7,82 @@ import '../models/midia_online.dart';
 class DetalhePage extends StatelessWidget {
   final Jogo jogo;
 
-  DetalhePage({super.key, required this.jogo});
+  const DetalhePage({
+    super.key,
+    required this.jogo,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(jogo.nome)),
-      body: Padding(
-        padding: EdgeInsets.all(20),
+      appBar: AppBar(
+        title: const Text('Detalhes do Jogo'),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(jogo.nome, style: Theme.of(context).textTheme.headlineSmall),
-            SizedBox(height: 4),
-            Text(jogo.genero, style: TextStyle(color: Colors.grey)),
-            Divider(height: 32),
+            Text(
+              jogo.nome,
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
 
-            _linha('Ano de lançamento', '${jogo.anoLancamento}'),
-            _linha('Espaço de armazenamento', '${jogo.espacoArmazenamento} GB'),
-            _linha('Disponível', jogo.disponivel ? 'Sim' : 'Não'),
-            _linha('Cadastrado em', _formatarData(jogo.dataCadastro)),
+            const SizedBox(height: 24),
+
+            _informacao(
+              'Gênero',
+              jogo.genero,
+            ),
+
+            _informacao(
+              'Ano de lançamento',
+              jogo.anoLancamento.toString(),
+            ),
+
+            _informacao(
+              'Armazenamento',
+              '${jogo.espacoArmazenamento} GB',
+            ),
+
+            _informacao(
+              'Disponível',
+              jogo.disponivel ? 'Sim' : 'Não',
+            ),
+
+            _informacao(
+              'Data de cadastro',
+              '${jogo.dataCadastro.day.toString().padLeft(2, '0')}/'
+              '${jogo.dataCadastro.month.toString().padLeft(2, '0')}/'
+              '${jogo.dataCadastro.year}',
+            ),
+
+            const SizedBox(height: 16),
 
             if (jogo is MidiaFisica) ...[
-              Divider(height: 32),
-              Text(
-                'Mídia física',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              _linha(
-                'Valor do frete',
+              _informacao(
+                'Frete',
                 'R\$ ${(jogo as MidiaFisica).valorFrete.toStringAsFixed(2)}',
               ),
-              _linha('Embalagem', (jogo as MidiaFisica).tipoEmbalagem),
+              _informacao(
+                'Embalagem',
+                (jogo as MidiaFisica).tipoEmbalagem,
+              ),
             ],
 
             if (jogo is MidiaOnline) ...[
-              Divider(height: 32),
-              Text(
-                'Mídia online',
-                style: Theme.of(context).textTheme.titleMedium,
+              _informacao(
+                'Plataforma',
+                (jogo as MidiaOnline).plataforma,
               ),
-              _linha('Plataforma', (jogo as MidiaOnline).plataforma),
-              _linha(
-                'Requer conexão constante',
-                (jogo as MidiaOnline).requerConexaoConstante ? 'Sim' : 'Não',
+              _informacao(
+                'Conexão constante',
+                (jogo as MidiaOnline).requerConexaoConstante
+                    ? 'Sim'
+                    : 'Não',
               ),
             ],
           ],
@@ -59,20 +91,15 @@ class DetalhePage extends StatelessWidget {
     );
   }
 
-  Widget _linha(String rotulo, String valor) {
+  Widget _informacao(String titulo, String valor) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Text('$rotulo: ', style: TextStyle(fontWeight: FontWeight.bold)),
-          Text(valor),
-        ],
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Text(
+        '$titulo: $valor',
+        style: const TextStyle(
+          fontSize: 17,
+        ),
       ),
     );
-  }
-
-  String _formatarData(DateTime data) {
-    return '${data.day.toString().padLeft(2, '0')}/'
-        '${data.month.toString().padLeft(2, '0')}/${data.year}';
   }
 }

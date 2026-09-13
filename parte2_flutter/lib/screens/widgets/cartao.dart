@@ -1,61 +1,78 @@
 import 'package:flutter/material.dart';
+
 import '../../models/jogo.dart';
 
-/// Cartão que exibe os dados de UM jogo, estilizado com BoxDecoration.
-/// É reaproveitado dentro do ListView.builder do exercício 7.
 class Cartao extends StatelessWidget {
   final Jogo jogo;
   final VoidCallback? onTap;
 
-  Cartao({super.key, required this.jogo, this.onTap});
+  const Cartao({
+    super.key,
+    required this.jogo,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(16),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        padding: EdgeInsets.all(14),
-        // Container não aceita `color` junto de `decoration`: a cor vai
-        // dentro do BoxDecoration.
+        margin: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
+        ),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
+          color: Colors.grey.shade900,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: Colors.grey.shade700,
+          ),
+          boxShadow: const [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.12),
-              blurRadius: 6,
-              offset: Offset(0, 3),
+              blurRadius: 8,
+              offset: Offset(0, 4),
             ),
           ],
         ),
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: Colors.indigo,
+              radius: 28,
               child: Text(
-                jogo.nome.isNotEmpty ? jogo.nome[0].toUpperCase() : '?',
-                style: TextStyle(color: Colors.white),
+                jogo.nome.substring(0, 1).toUpperCase(),
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     jogo.nome,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  Text(jogo.genero, style: TextStyle(color: Colors.white)),
+                  const SizedBox(height: 4),
+                  Text(jogo.genero),
+                  const SizedBox(height: 4),
+                  Text(
+                    'R\$ ${jogo.preco.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),
-            Text(
-              'R\$ ${jogo.preco.toStringAsFixed(2)}',
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
+            const Icon(Icons.chevron_right),
           ],
         ),
       ),

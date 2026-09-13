@@ -10,15 +10,21 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
-  final _nomeController = TextEditingController();
-  final _generoController = TextEditingController();
-  final _precoController = TextEditingController();
+  final TextEditingController _nomeController =
+      TextEditingController();
+
+  final TextEditingController _generoController =
+      TextEditingController();
+
+  final TextEditingController _precoController =
+      TextEditingController();
 
   @override
   void dispose() {
     _nomeController.dispose();
     _generoController.dispose();
     _precoController.dispose();
+
     super.dispose();
   }
 
@@ -26,25 +32,28 @@ class _CadastroPageState extends State<CadastroPage> {
     final nome = _nomeController.text.trim();
     final genero = _generoController.text.trim();
 
-    final preco =
-        double.tryParse(
-          _precoController.text.replaceAll(',', '.'),
-        ) ??
-        0.0;
+    final precoTexto = _precoController.text
+        .trim()
+        .replaceAll(',', '.');
 
-    if (nome.isEmpty) {
+    final preco = double.tryParse(precoTexto);
+
+    if (nome.isEmpty || genero.isEmpty || preco == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Informe o nome do jogo.'),
+          content: Text(
+            'Preencha todos os campos corretamente.',
+          ),
         ),
       );
+
       return;
     }
 
     final novoJogo = Jogo(
-      id: 'J${DateTime.now().millisecondsSinceEpoch}',
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       nome: nome,
-      genero: genero.isEmpty ? 'Não informado' : genero,
+      genero: genero,
       preco: preco,
       espacoArmazenamento: 1,
       anoLancamento: DateTime.now().year,
@@ -57,23 +66,19 @@ class _CadastroPageState extends State<CadastroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cadastrar jogo'),
+        title: const Text('Cadastrar Jogo'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TextFormField(
               controller: _nomeController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Nome do jogo',
-                prefixIcon: Icon(Icons.videogame_asset),
+                prefixIcon: const Icon(Icons.videogame_asset),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
@@ -82,13 +87,11 @@ class _CadastroPageState extends State<CadastroPage> {
 
             TextFormField(
               controller: _generoController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Gênero',
-                prefixIcon: Icon(Icons.category),
+                prefixIcon: const Icon(Icons.category),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
@@ -100,23 +103,24 @@ class _CadastroPageState extends State<CadastroPage> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(
-                labelText: 'Preço (R\$)',
-                prefixIcon: Icon(Icons.attach_money),
+              decoration: InputDecoration(
+                labelText: 'Preço',
+                prefixIcon: const Icon(Icons.attach_money),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
 
-            const SizedBox(height: 28),
+            const SizedBox(height: 24),
 
-            ElevatedButton.icon(
-              onPressed: _confirmar,
-              icon: const Icon(Icons.check),
-              label: const Text('Confirmar'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: _confirmar,
+                icon: const Icon(Icons.check),
+                label: const Text('Confirmar'),
+              ),
             ),
           ],
         ),
