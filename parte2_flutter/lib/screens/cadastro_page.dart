@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../models/jogo.dart';
 
 class CadastroPage extends StatefulWidget {
@@ -26,12 +27,17 @@ class _CadastroPageState extends State<CadastroPage> {
     final genero = _generoController.text.trim();
 
     final preco =
-        double.tryParse(_precoController.text.replaceAll(',', '.')) ?? 0.0;
+        double.tryParse(
+          _precoController.text.replaceAll(',', '.'),
+        ) ??
+        0.0;
 
     if (nome.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Informe o nome do jogo.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Informe o nome do jogo.'),
+        ),
+      );
       return;
     }
 
@@ -50,51 +56,67 @@ class _CadastroPageState extends State<CadastroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Cadastrar jogo')),
+      appBar: AppBar(
+        title: const Text('Cadastrar jogo'),
+      ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TextFormField(
               controller: _nomeController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Nome do jogo',
                 prefixIcon: Icon(Icons.videogame_asset),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 16),
+
+            const SizedBox(height: 16),
+
             TextFormField(
               controller: _generoController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Gênero',
                 prefixIcon: Icon(Icons.category),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 16),
+
+            const SizedBox(height: 16),
+
             TextFormField(
               controller: _precoController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              decoration: const InputDecoration(
                 labelText: 'Preço (R\$)',
                 prefixIcon: Icon(Icons.attach_money),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 28),
+
+            const SizedBox(height: 28),
+
             ElevatedButton.icon(
               onPressed: _confirmar,
-              icon: Icon(Icons.check),
-              label: Text('Confirmar'),
+              icon: const Icon(Icons.check),
+              label: const Text('Confirmar'),
             ),
           ],
         ),
