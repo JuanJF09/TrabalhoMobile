@@ -1,33 +1,33 @@
-import 'models/Jogo.dart';
-import 'models/MidiaFisica.dart';
-import 'models/MidiaOnline.dart';
-import 'models/Biblioteca.dart';
+import 'models/jogo.dart';
+import 'models/midia_fisica.dart';
+import 'models/midia_online.dart';
+import 'models/biblioteca.dart';
 
 void main(List<String> arguments) {
   final jogoBase = Jogo(
     id: 'J01',
     nome: 'Jogo Base',
-    genero: 'padrao',
+    genero: 'Padrão',
     preco: 0.00,
     espacoArmazenamento: 1,
-    anoLancamento: 0000,
+    anoLancamento: 2020,
   );
 
   final jogoFisico = MidiaFisica(
     id: 'J02',
     nome: 'Elden Ring',
-    genero: 'RPG de Acao',
+    genero: 'RPG de Ação',
     preco: 249.90,
     espacoArmazenamento: 60,
     anoLancamento: 2022,
     valorFrete: 25.00,
-    tipoEmbalagem: 'Steelbook Edicao de Colecionador',
+    tipoEmbalagem: 'Steelbook Edição de Colecionador',
   );
 
   final jogoOnline = MidiaOnline(
     id: 'J03',
     nome: 'Hollow Knight',
-    genero: 'RPG de Acao',
+    genero: 'Metroidvania',
     preco: 49.90,
     espacoArmazenamento: 10,
     anoLancamento: 2017,
@@ -35,30 +35,39 @@ void main(List<String> arguments) {
     requerConexaoConstante: true,
   );
 
-  print('=== Exercício 2: ficha() na classe base e nas subclasses  ===');
-  print(jogoBase.ficha()); // saída do método na classe base (Jogo)
-  print(jogoFisico.ficha()); // saída do método sobrescrito (MidiaFisica)
-  print(jogoOnline.ficha()); // saída do método sobrescrito (MidiaOnline)
+  print('===== [1] ENTIDADE PRINCIPAL =====');
+  print(jogoBase.ficha());
 
-  print('');
+  print('\n===== [2] HERANÇA =====');
+  print('Jogo comum   -> ${jogoBase.ficha()}');
+  print('MidiaFisica  -> ${jogoFisico.ficha()}');
+  print('MidiaOnline  -> ${jogoOnline.ficha()}');
+
   final biblioteca = Biblioteca(nome: 'Acervo Pessoal');
-
-  print('\n=== Exercício 4: getter calculado antes de adicionar ===');
-  print('Quantidade de jogos: ${biblioteca.quantidadeJogos}');
-  print(
-    'Valor total do acervo: R\$ ${biblioteca.valorTotalAcervo.toStringAsFixed(2)}',
-  );
-
   biblioteca.adicionar(jogoBase);
   biblioteca.adicionar(jogoFisico);
   biblioteca.adicionar(jogoOnline);
 
-  print('\n=== Exercício 4: getter calculado depois de adicionar ===');
-  print('Quantidade de jogos: ${biblioteca.quantidadeJogos}');
-  print(
-    'Valor total do acervo: R\$ ${biblioteca.valorTotalAcervo.toStringAsFixed(2)}',
-  );
-
-  print('\n=== Exercício 3: itens contidos na Biblioteca ===');
+  print('\n===== [3] COMPOSIÇÃO =====');
   biblioteca.listarJogos();
+
+  print('\n===== [4] ENCAPSULAMENTO =====');
+  print(
+    'Valor total do acervo (antes): R\$ ${biblioteca.valorTotalAcervo.toStringAsFixed(2)}',
+  );
+  final jogoExtra = MidiaOnline(
+    id: 'J04',
+    nome: 'Hades',
+    genero: 'Roguelike',
+    preco: 79.90,
+    espacoArmazenamento: 15,
+    anoLancamento: 2020,
+    plataforma: 'Steam / PC',
+    requerConexaoConstante: false,
+  );
+  biblioteca.adicionar(jogoExtra);
+  print(
+    'Após adicionar "${jogoExtra.nome}" (${jogoExtra.preco.toStringAsFixed(2)}): '
+    'R\$ ${biblioteca.valorTotalAcervo.toStringAsFixed(2)}',
+  );
 }
