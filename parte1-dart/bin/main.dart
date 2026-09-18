@@ -1,7 +1,7 @@
 import 'models/jogo.dart';
-import 'models/midiafisica.dart';
-import 'models/midiaonline.dart';
-import 'models/biblioteca.dart';
+import 'models/MidiaFisica.dart';
+import 'models/MidiaOnline.dart';
+import 'models/Biblioteca.dart';
 
 void main() {
   final jogoBase = Jogo(
