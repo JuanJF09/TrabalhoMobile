@@ -3,7 +3,7 @@
 **Integrantes:** 
 Caio Felipe Braga de Oliveira — RA: 252579-2024
 
-Juan
+Juan Felipe Araujo da silva - RA: 254230-2024
 
 ## Domínio
 
